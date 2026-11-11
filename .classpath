@@ -39,11 +39,11 @@
 	<classpathentry kind="lib" path="D:/git/workspace/import/jdbc/jar/jconn4-16.0.jar"/>
 	<classpathentry kind="lib" path="D:/git/workspace/import/jdbc/jar/monetdb-java-lite-2.39-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="D:/git/workspace/import/jdbc/jar/monetdb-jdbc-new-2.37-SNAPSHOT.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/JxTableGrid"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/common-gui-table-viewer"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jdbc-csv"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/JCommon"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/common-core"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jdbc-common"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jdbc-plugin"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/JFontIcons"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/common-gui-icons"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
