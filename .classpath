@@ -42,6 +42,8 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/common-gui-table-viewer"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jdbc-csv"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/common-core"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/common-xml"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/common-gui"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jdbc-common"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jdbc-plugin"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/common-gui-icons"/>
