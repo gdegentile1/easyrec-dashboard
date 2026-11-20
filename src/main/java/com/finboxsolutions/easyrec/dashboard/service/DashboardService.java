@@ -410,27 +410,31 @@ public class DashboardService {
 
     /** Orders reconciliations, putting rows with no value last whichever way the sort runs. */
     public static Comparator<Reconciliation> reconciliationComparator(String column, boolean ascending) {
-        Comparator<Reconciliation> comparator = switch (column) {
-            case "Template Path" -> nullsLast(Reconciliation::templatePath);
-            case "Project" -> nullsLast(rec -> ContextValues.clean(rec.context().name()));
-            case "Source" -> nullsLast(rec -> ContextValues.clean(rec.context().sourceLabel()));
-            case "Target" -> nullsLast(rec -> ContextValues.clean(rec.context().targetLabel()));
-            case "Category 1" -> nullsLast(rec -> ContextValues.clean(rec.context().category1()));
-            case "Category 2" -> nullsLast(rec -> ContextValues.clean(rec.context().category2()));
-            case "Category 3" -> nullsLast(rec -> ContextValues.clean(rec.context().category3()));
-            case "Status" -> Comparator.comparing(rec -> rec.status().name());
-            case "Match Rate" -> Comparator.comparing(Reconciliation::matchRate,
-                    Comparator.nullsLast(Comparator.naturalOrder()));
-            default -> Comparator.comparing(Reconciliation::templateId,
-                    Comparator.nullsLast(Comparator.naturalOrder()));
+        // The direction is applied to the values only: reversing the whole comparator would
+        // move the rows with no value to the top of a descending sort.
+        return switch (column) {
+            case "Template Path" -> nullsLast(Reconciliation::templatePath, String.CASE_INSENSITIVE_ORDER, ascending);
+            case "Project" -> nullsLast(rec -> ContextValues.clean(rec.context().name()),
+                    String.CASE_INSENSITIVE_ORDER, ascending);
+            case "Source" -> nullsLast(rec -> ContextValues.clean(rec.context().sourceLabel()),
+                    String.CASE_INSENSITIVE_ORDER, ascending);
+            case "Target" -> nullsLast(rec -> ContextValues.clean(rec.context().targetLabel()),
+                    String.CASE_INSENSITIVE_ORDER, ascending);
+            case "Category 1" -> nullsLast(rec -> ContextValues.clean(rec.context().category1()),
+                    String.CASE_INSENSITIVE_ORDER, ascending);
+            case "Category 2" -> nullsLast(rec -> ContextValues.clean(rec.context().category2()),
+                    String.CASE_INSENSITIVE_ORDER, ascending);
+            case "Category 3" -> nullsLast(rec -> ContextValues.clean(rec.context().category3()),
+                    String.CASE_INSENSITIVE_ORDER, ascending);
+            case "Status" -> nullsLast(rec -> rec.status().name(), Comparator.<String>naturalOrder(), ascending);
+            case "Match Rate" -> nullsLast(Reconciliation::matchRate, Comparator.<Double>naturalOrder(), ascending);
+            default -> nullsLast(Reconciliation::templateId, Comparator.<Integer>naturalOrder(), ascending);
         };
-        return ascending ? comparator : comparator.reversed();
     }
 
-    private static Comparator<Reconciliation> nullsLast(
-            java.util.function.Function<Reconciliation, String> extractor) {
-        return Comparator.comparing(extractor,
-                Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER));
+    private static <K> Comparator<Reconciliation> nullsLast(
+            java.util.function.Function<Reconciliation, K> extractor, Comparator<K> order, boolean ascending) {
+        return Comparator.comparing(extractor, Comparator.nullsLast(ascending ? order : order.reversed()));
     }
 
     // ---------------------------------------------------------------------- filter values

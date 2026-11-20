@@ -698,7 +698,8 @@ public class JdbcDashboardDao implements DashboardDao {
      * True when the failure is "table or view does not exist", recognised for each
      * supported back-end, since none of them agree on how to say it:
      * <ul>
-     *   <li>H2: SQLState 42S02, error code 42102</li>
+     *   <li>H2: SQLState 42S02, error code 42102; 42S04 / 42104 when the database holds no
+     *       table at all, 42S03 / 42103 when it suggests tables of a similar name</li>
      *   <li>Oracle: ORA-00942 (SQLState 42000 is too broad, so the error code decides)</li>
      *   <li>DuckDB: no SQLState, only a "Catalog Error ... does not exist" message</li>
      * </ul>
@@ -708,6 +709,8 @@ public class JdbcDashboardDao implements DashboardDao {
             if (current instanceof SQLException sql) {
                 if ("42S02".equals(sql.getSQLState())
                         || sql.getErrorCode() == 42102
+                        || sql.getErrorCode() == 42103
+                        || sql.getErrorCode() == 42104
                         || sql.getErrorCode() == 942) {
                     return true;
                 }

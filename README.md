@@ -372,14 +372,17 @@ folded metrics, the comparison rows with spread and delta, and the history trend
 `PivotFoldTest` additionally exercises the folding table model against real trees: default
 fold, full expansion, root-total equals leaf-total, and the root filter.
 
-`PatternTest` builds an in-memory H2 database laid out like the two pattern changelogs,
-foreign keys included, and checks every trend rule on counts and on rates, the description
-stopgap and the RCA rule names of the EasyRec sample (`Pattern_VALUE_DATE_DATE_SHIFT_98f55b15`
-and the like), the template id rule, the sample run's six patterns counted 9, 9, 6, 1, 1, 1 on
-template 1 while the run sits on template 2, a skipped export, the unexplained totals, the
-cross-template view, linking and its refusals, a history continued across a link, the batch
-delete moving `FIRST_SEEN_RUN`, removing an orphaned pattern and clearing a link to it, and a
-database without the pattern tables: 92 checks. Run it with H2 on the classpath.
+The JUnit tests under `src/test/java/com/...` cover the `model`, `dao` and `service` layers,
+the pivot adapter and the table models. The ones that read the database run against an
+in-memory H2 laid out by `TestDatabase` as easyrec-dbschema's generated H2 script creates the
+`ER_DASHBOARD_*` tables, foreign keys and SMALLINT statuses included. `PatternServiceTest`
+holds what the former `PatternTest` harness checked: every trend rule on counts and on rates,
+the sample run's six patterns counted 9, 9, 6, 1, 1, 1 on template 1 while the run sits on
+template 2, a skipped export, the unexplained totals, the cross-template view, linking and its
+refusals, a history continued across a link, the batch delete moving `FIRST_SEEN_RUN`,
+removing an orphaned pattern and clearing a link to it, and a database without the pattern
+tables. `PatternKindTest` holds the description stopgap and the RCA rule names
+(`Pattern_VALUE_DATE_DATE_SHIFT_98f55b15` and the like), `TemplateIdsTest` the template id rule.
 
 The Swing layer now compiles against the real workspace projects — `JCommon`, `JFontIcons`
 and `JxTableGrid` — rather than against stubs, and every screen has been run and rendered:
