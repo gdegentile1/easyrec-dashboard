@@ -61,7 +61,7 @@ public class DashboardPanel extends JPanel implements DashboardNavigator {
 
     private final DashboardDao dao;
     private final DashboardService dashboard;
-    private final CompareService compare;
+    private final CompareService compareService;
     private final HistoryService historyService;
     private final PatternService patternService;
 
@@ -77,7 +77,7 @@ public class DashboardPanel extends JPanel implements DashboardNavigator {
         super(new MigLayout("insets 0, fill, wrap 1", "[grow,fill]", "[]0[grow,fill]"));
         this.dao = dao;
         this.dashboard = new DashboardService(dao);
-        this.compare = new CompareService(dao, dashboard);
+        this.compareService = new CompareService(dao, dashboard);
         this.historyService = new HistoryService(dao, dashboard);
         this.patternService = new PatternService(dao, dashboard);
 
@@ -85,7 +85,7 @@ public class DashboardPanel extends JPanel implements DashboardNavigator {
         this.batchListView = new BatchListView(dao, dashboard, this);
         this.batchDetailView = new BatchDetailView(dao, dashboard, this);
         this.reconciliationView = new ReconciliationView(dao, dashboard, patternService, this);
-        this.compareView = new CompareView(dao, dashboard, compare, this);
+        this.compareView = new CompareView(dao, dashboard, compareService, this);
         this.historyView = new HistoryView(historyService, patternService, this);
         this.patternView = new PatternView(patternService, this);
 
